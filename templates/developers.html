@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Разработчики - Конфософт{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Разработчики</h1>
+
+    <div class="developer-section">
+        <div class="company-info">
+            <h2>ООО "Конфософт"</h2>
+            <p>Компания специализируется на разработке программного обеспечения для научного оборудования, в частности для конфокальных микроскопов.</p>
+        </div>
+
+        <div class="developer-card">
+            <div class="developer-avatar">👤</div>
+            <div class="developer-info">
+                <h3>Косач П.А.</h3>
+                <p class="position">Генеральный директор</p>
+                <p class="email">📧 rbpavel1975@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="support-info">
+            <img src="/static/img/fond_logo.png" alt="Фонд содействия инновациям" class="fond-logo">
+            <h2>Проект реализован при поддержке</h2>
+            <p>Фонда содействия инновациям в рамках программы «Студенческий стартап» мероприятия «Платформа университетского технологического предпринимательства» федерального проекта «Технологии».</p>
+        </div>
+
+        <div class="contact-section">
+            <h2>Свяжитесь с нами</h2>
+            <div class="contact-methods">
+                <div class="contact-card">
+                    <span class="contact-icon">📧</span>
+                    <h3>Email</h3>
+                    <p>rbpavel1975@gmail.com</p>
+                </div>
+                <div class="contact-card">
+                    <span class="contact-icon">🌐</span>
+                    <h3>Сайт</h3>
+                    <p>www.confosoft.ru</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

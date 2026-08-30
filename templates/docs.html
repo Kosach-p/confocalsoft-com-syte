@@ -1,0 +1,534 @@
+{% extends "base.html" %}
+
+{% block title %}Документация - Конфософт{% endblock %}
+
+{% block content %}
+<div class="container docs-container">
+    <h1 class="page-title">Документация</h1>
+
+    <div class="docs-layout">
+        <!-- Боковое меню с темами -->
+        <aside class="docs-sidebar">
+            <div class="docs-tree">
+                <h3>Содержание</h3>
+                <ul class="tree">
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">📘 Общие сведения</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#general">Обзор программы</a></li>
+                            <li><a href="#equipment">Поддерживаемое оборудование</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">💿 Установка</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#install">Установка и первый запуск</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">🖥️ Интерфейс</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#interface-main">Главное окно</a></li>
+                            <li><a href="#interface-windows">Переключение окон</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">🔬 2D Сканирование</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#scan-modes">Режимы сканирования</a></li>
+                            <li><a href="#scan-params">Параметры сканирования</a></li>
+                            <li><a href="#scan-time">Оценка времени</a></li>
+                            <li><a href="#scan-roi">Повторное сканирование (ROI)</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">📊 3D Визуализация</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#3d-modes">Режимы отображения</a></li>
+                            <li><a href="#3d-slices">Просмотр срезов</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">🌈 Спектрометрия</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#spectrum-params">Параметры сканирования</a></li>
+                            <li><a href="#spectrum-modes">Режимы работы</a></li>
+                            <li><a href="#spectrum-reference">Опорный спектр</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">📡 ОДМР</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#odmr-params">Параметры сканирования</a></li>
+                            <li><a href="#odmr-random">Случайный режим</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">⚙️ G-код</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#gcode-commands">Поддерживаемые команды</a></li>
+                            <li><a href="#gcode-load">Загрузка программ</a></li>
+                            <li><a href="#gcode-params">Параметры обработки</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">📁 Организация данных</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#data-structure">Структура</a></li>
+                            <li><a href="#data-operations">Операции</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">🔧 Настройки</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#settings-interface">Интерфейс связи</a></li>
+                            <li><a href="#settings-devices">Устройства</a></li>
+                            <li><a href="#settings-commands">Сборщик команд</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">🔗 Нодовый редактор</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#nodes-principle">Принцип работы</a></li>
+                            <li><a href="#nodes-categories">Категории нод</a></li>
+                            <li><a href="#nodes-types">Типы данных</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">💾 Экспорт</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#export-formats">Форматы</a></li>
+                            <li><a href="#export-params">Параметры сохранения</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="tree-item" onclick="toggleTree(this)">📄 Конфигурация</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#config-files">Конфигурационные файлы</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="docs-download">
+                <h3>Скачать документацию</h3>
+                <a href="/download/Руководство пользователя ConfoSoft.pdf" class="btn btn-primary">⬇ Скачать PDF</a>
+            </div>
+        </aside>
+
+        <!-- Контент документации -->
+        <main class="docs-content">
+            <!-- Общие сведения -->
+            <section id="general" class="doc-section">
+                <h2>Общие сведения</h2>
+                <p>Программа предназначена для управления лазерным сканирующим конфокальным микроскопом и сбора экспериментальных данных. Поддерживаются следующие типы измерений:</p>
+                <ul class="doc-list">
+                    <li>спектры люминесценции;</li>
+                    <li>спектры оптически детектируемого магнитного резонанса (ОДМР);</li>
+                    <li>двух- и трёхмерные карты распределения люминесценции;</li>
+                    <li>топографические карты поверхности.</li>
+                </ul>
+                <p>Дополнительно реализовано исполнение управляющих программ в формате G-кода, что позволяет использовать микроскоп для задач лазерной литографии и субтрактивной обработки материалов.</p>
+                <p>Визуализация данных обеспечивает интерактивное управление отображением: масштабирование, панорамирование, вращение трёхмерных сцен, настройку цветовых карт и динамическое изменение отображаемого диапазона.</p>
+                <p>Обработка данных выполняется через нодовый редактор. Доступны алгоритмы фильтрации, нормализации, статистического анализа, геометрических преобразований и деконволюции с использованием функции рассеяния точки (PSF) оптической системы.</p>
+            </section>
+
+            <section id="equipment" class="doc-section">
+                <h2>Поддерживаемое оборудование</h2>
+                <p>Программа не привязана к конкретным моделям устройств. При наличии документации на протокол обмена могут быть подключены приборы следующих категорий:</p>
+                <ul class="doc-list">
+                    <li>двухкоординатные отклоняющие системы (сканеры пучка);</li>
+                    <li>трёхкоординатные позиционеры предметного стола;</li>
+                    <li>детекторы оптического излучения;</li>
+                    <li>монохроматоры;</li>
+                    <li>генераторы СВЧ-сигналов.</li>
+                </ul>
+                <p>Настройка протоколов выполняется через конфигурационные файлы и сборщик команд. Модификация исходного кода не требуется.</p>
+            </section>
+
+            <!-- Установка -->
+            <section id="install" class="doc-section">
+                <h2>Установка и первый запуск</h2>
+                <p>Программа поставляется в виде архива. Для установки:</p>
+                <ol class="doc-list">
+                    <li>Распакуйте архив в выбранную директорию.</li>
+                    <li>Запустите <code>Confocal Soft.exe</code>.</li>
+                </ol>
+                <p>При первом запуске в папке <code>service_files/</code> автоматически создаётся структура конфигурационных файлов со значениями по умолчанию.</p>
+            </section>
+
+            <!-- Интерфейс -->
+            <section id="interface-main" class="doc-section">
+                <h2>Главное окно</h2>
+                <p>При запуске восстанавливается последнее использовавшееся окно. Основные элементы главного окна:</p>
+                <ul class="doc-list">
+                    <li><strong>Строка меню</strong> — доступ к общему функционалу программы.</li>
+                    <li><strong>Панель состояния интерфейсов</strong> — индикация подключённых устройств и их статуса.</li>
+                    <li><strong>Панель сообщений</strong> — вывод информационных сообщений и ошибок.</li>
+                    <li><strong>Строка статуса</strong> — текущее активное окно или выполняемая задача.</li>
+                </ul>
+            </section>
+
+            <section id="interface-windows" class="doc-section">
+                <h2>Переключение между окнами</h2>
+                <p>Выполняется одним из способов:</p>
+                <ul class="doc-list">
+                    <li>через меню «Окно» — выбор нужного окна из списка;</li>
+                    <li>горячими клавишами (комбинации указаны в соответствующих разделах руководства).</li>
+                </ul>
+            </section>
+
+            <!-- 2D Сканирование -->
+            <section id="scan-modes" class="doc-section">
+                <h2>Режимы сканирования</h2>
+                <ol class="doc-list">
+                    <li><strong>Комбинированное сканирование.</strong> Перемещение по X и Y выполняется сканером пучка; по Z — позиционером предметного стола. Обеспечивает высокую скорость в плоскости XY при ограниченном угле отклонения сканера.</li>
+                    <li><strong>Сканирование позиционером.</strong> Все три координаты (X, Y, Z) отрабатываются позиционером стола. Позволяет сканировать большие области и исключает аберрации, связанные с отклонением пучка.</li>
+                </ol>
+            </section>
+
+            <section id="scan-params" class="doc-section">
+                <h2>Параметры сканирования</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Начальные координаты X₀, Y₀, Z₀</td>
+                            <td>Точка начала области сканирования</td>
+                        </tr>
+                        <tr>
+                            <td>Конечные координаты X₁, Y₁, Z₁</td>
+                            <td>Точка конца области сканирования</td>
+                        </tr>
+                        <tr>
+                            <td>Шаг dX, dY, dZ</td>
+                            <td>Расстояние между соседними точками по каждой оси</td>
+                        </tr>
+                        <tr>
+                            <td>Время накопления</td>
+                            <td>Время регистрации сигнала в точке</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="scan-time" class="doc-section">
+                <h2>Оценка времени сканирования</h2>
+                <p>Полное время сканирования:</p>
+                <div class="formula">T = Nₓ · Nᵧ · N_z · (t_accum + t_losses)</div>
+                <p>где Nᵢ = ⌊(X₁ᵢ - X₀ᵢ) / dᵢ⌋ + 1 — число точек по оси; t_accum — время накопления; t_losses — накладные расходы на одну точку.</p>
+                <p>Накладные расходы включают: время передачи команды устройству, время приёма ответа, задержки операционной системы.</p>
+            </section>
+
+            <section id="scan-roi" class="doc-section">
+                <h2>Повторное сканирование выделенной области (ROI)</h2>
+                <p>После завершения сканирования на изображении можно выделить прямоугольную область. Параметры сканирования автоматически обновляются под выделенную область. Это позволяет пересканировать интересующий участок с тем же или изменённым разрешением без повторного ввода координат.</p>
+            </section>
+
+            <!-- 3D Визуализация -->
+            <section id="3d-modes" class="doc-section">
+                <h2>Режимы отображения 3D</h2>
+                <ul class="doc-list">
+                    <li><strong>Воксельный (Voxel-based).</strong> Данные представлены трёхмерной сеткой вокселей. Воксель отображается, если его интенсивность превышает заданный порог.</li>
+                    <li><strong>Объёмный (Volumetric).</strong> Строится трёхмерное облако точек, каждой из которых назначены цвет и прозрачность в соответствии со значением интенсивности.</li>
+                </ul>
+                <p>Для работы окна требуется поддержка OpenGL версии 3.2 или выше.</p>
+            </section>
+
+            <section id="3d-slices" class="doc-section">
+                <h2>Просмотр срезов</h2>
+                <p>Предусмотрен режим просмотра отдельных слоёв по оси Z. Навигация по слоям — ползунком или кнопками. Переход в режим срезов не препятствует возврату к трёхмерному отображению.</p>
+            </section>
+
+            <!-- Спектрометрия -->
+            <section id="spectrum-params" class="doc-section">
+                <h2>Параметры спектрального сканирования</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Начальная длина волны</td>
+                            <td>Левая граница диапазона, нм</td>
+                        </tr>
+                        <tr>
+                            <td>Конечная длина волны</td>
+                            <td>Правая граница диапазона, нм</td>
+                        </tr>
+                        <tr>
+                            <td>Шаг сканирования</td>
+                            <td>Шаг перестройки, нм</td>
+                        </tr>
+                        <tr>
+                            <td>Время накопления</td>
+                            <td>Время регистрации сигнала, мс</td>
+                        </tr>
+                        <tr>
+                            <td>Число повторений</td>
+                            <td>Количество проходов диапазона</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="spectrum-modes" class="doc-section">
+                <h2>Режимы работы монохроматора</h2>
+                <ul class="doc-list">
+                    <li><strong>Пошаговый.</strong> Монохроматор останавливается на каждой длине волны, выполняется измерение детектором, затем переход к следующей позиции. Максимальная точность позиционирования.</li>
+                    <li><strong>Непрерывный.</strong> Монохроматор изменяет длину волны без остановки; детектор регистрирует сигнал на всём протяжении диапазона. Выше скорость, однако возможен сдвиг данных из-за инерции механизма.</li>
+                </ul>
+            </section>
+
+            <section id="spectrum-reference" class="doc-section">
+                <h2>Опорный спектр</h2>
+                <p>Используется для коррекции фонового сигнала. Пользователь регистрирует опорный спектр (без образца или с эталоном) и сохраняет его. Все последующие спектры отображаются с вычитанием опорного. Применяется при измерениях поглощения и люминесценции.</p>
+            </section>
+
+            <!-- ОДМР -->
+            <section id="odmr-params" class="doc-section">
+                <h2>Параметры ОДМР сканирования</h2>
+                <p>Параметры аналогичны спектральному сканированию, но диапазон задаётся в МГц, а шаг соответствует перестройке частоты СВЧ-генератора.</p>
+            </section>
+
+            <section id="odmr-random" class="doc-section">
+                <h2>Случайный режим</h2>
+                <p>При длительных измерениях возможен локальный перегрев образца в точке резонансного поглощения. Для предотвращения этого эффекта частоты перебираются не последовательно, а в псевдослучайном порядке. Тепловая нагрузка распределяется равномерно по диапазону.</p>
+            </section>
+
+            <!-- G-код -->
+            <section id="gcode-commands" class="doc-section">
+                <h2>Поддерживаемые команды G-кода</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Код</th>
+                            <th>Формат</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>G00</td><td>G00 X... Y...</td><td>Быстрое перемещение</td></tr>
+                        <tr><td>G01</td><td>G01 X... Y... F...</td><td>Линейная интерполяция</td></tr>
+                        <tr><td>M03</td><td>M03</td><td>Включение лазера</td></tr>
+                        <tr><td>M05</td><td>M05</td><td>Выключение лазера</td></tr>
+                        <tr><td>F</td><td>F...</td><td>Скорость подачи, LSB/с</td></tr>
+                        <tr><td>S</td><td>S...</td><td>Мощность лазера, %</td></tr>
+                        <tr><td>G04</td><td>G04 P...</td><td>Пауза, с</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="gcode-load" class="doc-section">
+                <h2>Загрузка управляющих программ</h2>
+                <p>Поддерживаются текстовые файлы с расширениями <code>.gcode</code>, <code>.nc</code>, <code>.txt</code>, а также файлы SVG (с автоматической конвертацией в G-код с линейной интерполяцией).</p>
+            </section>
+
+            <section id="gcode-params" class="doc-section">
+                <h2>Параметры обработки траектории</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Смещение X, Y</td><td>Сдвиг траектории, LSB</td></tr>
+                        <tr><td>Масштаб X, Y</td><td>Коэффициенты масштабирования</td></tr>
+                        <tr><td>Поворот</td><td>Угол поворота траектории, градусы</td></tr>
+                        <tr><td>Масштаб F</td><td>Множитель скорости подачи</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Организация данных -->
+            <section id="data-structure" class="doc-section">
+                <h2>Структура данных</h2>
+                <ul class="doc-list">
+                    <li><strong>Ветвь</strong> — соответствует одному эксперименту. Содержит общие параметры: комментарий, время создания, описание.</li>
+                    <li><strong>Лист</strong> — единичное измерение внутри ветви (матрица скана, спектр). Может быть визуализирован или экспортирован независимо.</li>
+                </ul>
+                <p>При завершении измерения данные автоматически помещаются в дерево как новый лист. Ветвь для размещения определяется автоматически по совпадению параметров эксперимента.</p>
+            </section>
+
+            <section id="data-operations" class="doc-section">
+                <h2>Операции с данными</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Действие</th>
+                            <th>Результат</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Клик по иконке «глаз»</td><td>Показать/скрыть данные на графике</td></tr>
+                        <tr><td>Клик по иконке «корзина»</td><td>Удалить элемент из дерева</td></tr>
+                        <tr><td>Клик по иконке «дискета»</td><td>Открыть диалог сохранения</td></tr>
+                        <tr><td>Двойной клик по имени</td><td>Переименовать элемент</td></tr>
+                        <tr><td>Ctrl + клик</td><td>Выделить несколько элементов</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Настройки -->
+            <section id="settings-interface" class="doc-section">
+                <h2>Создание интерфейса связи</h2>
+                <p>Программа поддерживает интерфейсы Serial и Ethernet. Для создания нового интерфейса:</p>
+                <ol class="doc-list">
+                    <li>Меню «Настройки» → «Соединение».</li>
+                    <li>Кнопка «+ Добавить» → выбор типа интерфейса.</li>
+                </ol>
+                <h3>Параметры Serial</h3>
+                <ul class="doc-list">
+                    <li><strong>Порт</strong> — идентификатор (COM1, COM2, ...)</li>
+                    <li><strong>Скорость передачи</strong> — бод</li>
+                    <li><strong>Длина слова</strong> — обычно 8 бит</li>
+                    <li><strong>Чётность</strong> — None, Even, Odd, Mark, Space</li>
+                    <li><strong>Стоп-биты</strong> — 1; 1,5; 2</li>
+                    <li><strong>Таймаут отправки/ответа</strong> — время ожидания ответа, с</li>
+                </ul>
+                <h3>Параметры Ethernet</h3>
+                <ul class="doc-list">
+                    <li><strong>IP-адрес устройства</strong></li>
+                    <li><strong>Порт</strong> — TCP-порт (обычно 502 для Modbus TCP)</li>
+                    <li><strong>Таймаут соединения</strong></li>
+                    <li><strong>Таймаут отправки/ответа</strong></li>
+                </ul>
+            </section>
+
+            <section id="settings-devices" class="doc-section">
+                <h2>Добавление устройства</h2>
+                <p>Поддерживаются пять групп устройств: сканеры пучка, детекторы, позиционеры, монохроматоры, СВЧ-генераторы.</p>
+                <h3>Групповые параметры</h3>
+                <ul class="doc-list">
+                    <li><strong>Сканеры пучка:</strong> Пределы отклонения, коэффициенты пересчёта LSB → мкм, коэффициенты компенсации гистерезиса.</li>
+                    <li><strong>Детекторы:</strong> Время накопления, период опроса, уровень компаратора.</li>
+                    <li><strong>Монохроматоры:</strong> Скорость протяжки, ускорение, токи удержания, число шагов на 1 нм.</li>
+                    <li><strong>Позиционеры:</strong> Рабочая область, коэффициенты пересчёта, ускорение.</li>
+                    <li><strong>СВЧ-генератор:</strong> Рабочий диапазон частот, выходная мощность.</li>
+                </ul>
+            </section>
+
+            <section id="settings-commands" class="doc-section">
+                <h2>Сборщик команд</h2>
+                <p>Сборщик команд позволяет настроить протокол обмена без правки исходного кода. Настраиваются как отправляемые, так и принимаемые команды.</p>
+                <h3>Бинарный формат</h3>
+                <p>Настраиваемые блоки пакета: стартовое слово, адрес устройства, код команды, поле длины, конечное слово, контрольная сумма, данные.</p>
+                <h3>ASCII-формат</h3>
+                <p>Настраиваются: префиксы/суффиксы команд, разделители, терминатор фрейма, кодировка.</p>
+            </section>
+
+            <!-- Нодовый редактор -->
+            <section id="nodes-principle" class="doc-section">
+                <h2>Принцип работы</h2>
+                <p>Нодовый редактор предназначен для построения конвейеров обработки данных. Пользователь соединяет функциональные блоки (ноды) в граф; данные передаются по соединениям, преобразуясь на каждом шаге.</p>
+            </section>
+
+            <section id="nodes-categories" class="doc-section">
+                <h2>Категории нод</h2>
+                <ul class="doc-list">
+                    <li><strong>DATA_IO:</strong> Загрузка из файлов, экспорт в файлы</li>
+                    <li><strong>MATH:</strong> Арифметические операции, нормализация, статистика</li>
+                    <li><strong>FILTERS:</strong> Сглаживание, шумоподавление, деконволюция</li>
+                    <li><strong>TRANSFORMS:</strong> Геометрические преобразования, выделение областей</li>
+                    <li><strong>AVERAGING:</strong> Простое, взвешенное, робастное усреднение</li>
+                    <li><strong>SEGMENTATION:</strong> Пороговая обработка, водораздел, k-means</li>
+                    <li><strong>VISUALIZATION:</strong> Гистограммы, отображение изображений</li>
+                    <li><strong>UTILS:</strong> Отладка, работа с метаданными</li>
+                </ul>
+            </section>
+
+            <section id="nodes-types" class="doc-section">
+                <h2>Типы данных</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Цвет сокета</th>
+                            <th>Тип</th>
+                            <th>Пример</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Серый</td><td>Универсальный</td><td>Любые данные</td></tr>
+                        <tr><td>Синий</td><td>2D-матрица</td><td>Изображение (скан)</td></tr>
+                        <tr><td>Зелёный</td><td>Спектр</td><td>Массив (X, Y)</td></tr>
+                        <tr><td>Красный</td><td>Число</td><td>Скаляр</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Экспорт -->
+            <section id="export-formats" class="doc-section">
+                <h2>Форматы экспорта</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Тип данных</th>
+                            <th>Форматы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Матрицы (сканы)</td>
+                            <td>csv, dat, h5, hdf5, npy, npz, tif, tiff, txt</td>
+                        </tr>
+                        <tr>
+                            <td>Спектры</td>
+                            <td>csv, dat, json, npy, npz, txt</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="export-params" class="doc-section">
+                <h2>Параметры сохранения</h2>
+                <ul class="doc-list">
+                    <li><strong>Группировка в файл</strong> — все листы ветви сохраняются в один файл</li>
+                    <li><strong>Добавление даты/времени</strong> — префикс к имени файла</li>
+                    <li><strong>Включение заголовка</strong> — в файл данных добавляются заголовки столбцов</li>
+                    <li><strong>Открыть папку после сохранения</strong> — автоматическое открытие директории</li>
+                </ul>
+            </section>
+
+            <!-- Конфигурация -->
+            <section id="config-files" class="doc-section">
+                <h2>Конфигурационные файлы</h2>
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Файл</th>
+                            <th>Назначение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>devices_settings.json</td><td>Параметры устройств, команд и протоколов</td></tr>
+                        <tr><td>profiles_settings.json</td><td>Профили подключений (COM, Ethernet)</td></tr>
+                        <tr><td>app_state.json</td><td>Состояние программы на момент закрытия</td></tr>
+                        <tr><td>UI_settings.ini</td><td>Геометрия и положение окон</td></tr>
+                        <tr><td>themes/*.qss</td><td>Стили оформления интерфейса</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Внимание:</strong> перед редактированием любого конфигурационного файла создайте резервную копию.</p>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    function toggleTree(element) {
+        const submenu = element.nextElementSibling;
+        if (submenu && submenu.classList.contains('tree-submenu')) {
+            submenu.classList.toggle('active');
+        }
+    }
+</script>
+{% endblock %}
