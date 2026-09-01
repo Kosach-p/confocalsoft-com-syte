@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ConfoSoft{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/img/icon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="/static/img/icon comp.png" alt="Иконка" class="nav-icon">
+                <span class="nav-title">ООО "Конфософт"</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link {% if active_page == 'home' %}active{% endif %}">Главная</a>
+                <a href="/developers" class="nav-link {% if active_page == 'developers' %}active{% endif %}">Разработчики</a>
+                <a href="/updates" class="nav-link {% if active_page == 'updates' %}active{% endif %}">Обновления</a>
+                <a href="/docs-page" class="nav-link {% if active_page == 'docs' %}active{% endif %}">Документация</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Контент -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 ООО "Конфософт". Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

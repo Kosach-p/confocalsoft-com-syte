@@ -1,0 +1,638 @@
+{% extends "base.html" %}
+
+{% block title %}Документация - Конфософт{% endblock %}
+
+{% block content %}
+<style>
+
+/* Стили для кнопок как на главной */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1e40af, #1e3a8a);
+    border-color: #1e40af;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-secondary:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Для кнопки скачивания руководства */
+.docs-download .btn {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    border: 2px solid #2563eb;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.docs-download .btn:hover {
+    background: linear-gradient(135deg, #1e40af, #1e3a8a);
+    border-color: #1e40af;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+}
+    /* ===== СТИЛИ ДЛЯ КАРТИНОК ===== */
+.doc-figure {
+    margin: 2rem 0;
+    border: 1px solid #5b8dd6;
+    border-radius: 12px;
+    padding: 1rem;
+    background: transparent;
+}
+
+.doc-figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.doc-figure figcaption {
+    text-align: center;
+    margin-top: 0.75rem;
+    color: #5b8dd6;  /* Цвет текста как у бордера */
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.doc-figure .missing-img {
+    background: transparent;
+    border: 2px dashed #5b8dd6;  /* Пунктирная граница тоже в цвет бордера */
+    border-radius: 8px;
+    padding: 3rem 1rem;
+    text-align: center;
+    color: #5b8dd6;  /* Цвет текста как у бордера */
+}
+
+.doc-figure .missing-img i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #5b8dd6;  /* Цвет иконки как у бордера */
+}
+
+.doc-figure .missing-img small {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #5b8dd6;  /* Цвет мелкого текста как у бордера */
+}
+</style>
+
+<div class="container">
+    <div class="docs-layout">
+        <!-- Боковое меню -->
+        <aside class="docs-sidebar">
+            <div class="docs-tree">
+                <h3><i class="fas fa-list-ul" style="margin-right: 8px;"></i>Содержание</h3>
+                <ul class="tree">
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-info-circle"></i> 1. Общие сведения</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-general">1.1 Обзор</a></li>
+                            <li><a href="#sec-equipment">1.2 Оборудование</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-download"></i> 2. Установка</span>
+                        <ul class="tree-submenu"><li><a href="#sec-install">Установка и первый запуск</a></li></ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-desktop"></i> 3. Интерфейс</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-interface-main">Главное окно</a></li>
+                            <li><a href="#sec-interface-switch">Переключение окон</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-arrows-alt"></i> 4. 2D сканирование</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-scan-modes">Режимы</a></li>
+                            <li><a href="#sec-scan-params">Параметры</a></li>
+                            <li><a href="#sec-scan-time">Оценка времени</a></li>
+                            <li><a href="#sec-scan-roi">ROI</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-cube"></i> 5. 3D визуализация</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-3d-modes">Режимы</a></li>
+                            <li><a href="#sec-3d-slices">Срезы</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-wave-square"></i> 6. Спектрометрия</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-spec-params">Параметры</a></li>
+                            <li><a href="#sec-spec-modes">Режимы</a></li>
+                            <li><a href="#sec-spec-ref">Опорный спектр</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-magnet"></i> 7. ОДМР</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-odmr-params">Параметры</a></li>
+                            <li><a href="#sec-odmr-random">Случайный режим</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-code"></i> 8. G-код</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-gcode-commands">Команды</a></li>
+                            <li><a href="#sec-gcode-load">Загрузка</a></li>
+                            <li><a href="#sec-gcode-params">Параметры</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-tree"></i> 9. Организация данных</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-data-structure">Структура</a></li>
+                            <li><a href="#sec-data-operations">Операции</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-sliders-h"></i> 10. Настройки</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-settings-interface">Интерфейс связи</a></li>
+                            <li><a href="#sec-settings-devices">Устройства</a></li>
+                            <li><a href="#sec-settings-commands">Сборщик команд</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-project-diagram"></i> 11. Нодовый редактор</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-nodes-principle">Принцип</a></li>
+                            <li><a href="#sec-nodes-categories">Категории</a></li>
+                            <li><a href="#sec-nodes-types">Типы данных</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-save"></i> 12. Экспорт</span>
+                        <ul class="tree-submenu">
+                            <li><a href="#sec-export-formats">Форматы</a></li>
+                            <li><a href="#sec-export-params">Параметры</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="tree-item" onclick="toggleTree(this)"><i class="fas fa-cogs"></i> 13. Конфигурация</span>
+                        <ul class="tree-submenu"><li><a href="#sec-config-files">Файлы</a></li></ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="docs-download">
+                <h3><i class="fas fa-file-pdf"></i> Скачать PDF</h3>
+                <a href="/download/manual.pdf" class="btn"><i class="fas fa-arrow-down"></i> Загрузить руководство</a>
+            </div>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="docs-content">
+
+            <!-- ============================================================ -->
+            <!-- 1. ОБЩИЕ СВЕДЕНИЯ -->
+            <section id="sec-general" class="doc-section">
+                <h2>1. Общие сведения</h2>
+                <p>Программа предназначена для управления лазерным сканирующим конфокальным микроскопом, а также сбора и обработки экспериментальных данных. Поддерживаются следующие типы измерений:</p>
+                <ul>
+                    <li>спектры люминесценции;</li>
+                    <li>спектры оптически детектируемого магнитного резонанса (ОДМР);</li>
+                    <li>двух- и трёхмерные карты распределения люминесценции;</li>
+                    <li>топографические карты поверхности.</li>
+                </ul>
+                <p>Дополнительно реализовано исполнение управляющих программ в формате G-кода (раздел <a href="#sec-gcode-commands">8</a>), что позволяет использовать микроскоп для задач лазерной литографии и субтрактивной обработки материалов.</p>
+                <p>Визуализация данных обеспечивает интерактивное управление отображением: масштабирование, панорамирование, вращение трёхмерных сцен (раздел <a href="#sec-3d-modes">5</a>), настройку цветовых карт и динамическое изменение отображаемого диапазона.</p>
+                <p>Обработка данных выполняется через нодовый редактор (раздел <a href="#sec-nodes-principle">11</a>). Доступны алгоритмы фильтрации, нормализации, статистического анализа, геометрических преобразований и деконволюции с использованием функции рассеяния точки (PSF) оптической системы и без неё.</p>
+
+                <h3 id="sec-equipment">1.1 Поддерживаемое оборудование</h3>
+                <p>Программа не привязана к конкретным моделям устройств. При наличии документации на протокол обмена могут быть подключены приборы следующих категорий:</p>
+                <ul>
+                    <li>двухкоординатные отклоняющие системы (сканеры пучка);</li>
+                    <li>трёхкоординатные позиционеры предметного стола;</li>
+                    <li>детекторы оптического излучения;</li>
+                    <li>монохроматоры;</li>
+                    <li>генераторы СВЧ-сигналов.</li>
+                </ul>
+                <p>Настройка протоколов выполняется через конфигурационные файлы (раздел <a href="#sec-config-files">13</a>) и сборщик команд (раздел <a href="#sec-settings-commands">10.3</a>). Модификация исходного кода не требуется.</p>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 2. УСТАНОВКА -->
+            <section id="sec-install" class="doc-section">
+                <h2>2. Установка и первый запуск</h2>
+                <p>Программа поставляется в двух видах и может быть получена на сайте проекта <code>confocalsoft.ru</code>. Для установки портативной версии:</p>
+                <ol>
+                    <li>Распакуйте архив с портативной версией в выбранную директорию.</li>
+                    <li>Запустите <code>Confocal Soft.exe</code>.</li>
+                </ol>
+                <p>Для стационарной версии:</p>
+                <ol>
+                    <li>Запустите файл установки и следуйте инструкциям.</li>
+                    <li>По завершении запустите <code>Confocal Soft.exe</code>.</li>
+                </ol>
+                <p>При первом запуске в папке <code>service_files/</code> автоматически создаётся структура конфигурационных файлов со значениями по умолчанию. Состав конфигурационных файлов и их назначение приведены в разделе <a href="#sec-config-files">13</a>.</p>
+                
+                <!-- Рисунок 1: main_window.png -->
+                <figure class="doc-figure">
+                    <img src="figures/main_window.png" alt="Главное окно программы" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>main_window.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 1 — Главное окно программы</figcaption>
+                </figure>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 3. ИНТЕРФЕЙС -->
+            <section id="sec-interface-main" class="doc-section">
+                <h2>3. Интерфейс программы</h2>
+                <h3>3.1 Главное окно</h3>
+                <p>При запуске восстанавливается последнее использовавшееся окно. Основные элементы главного окна:</p>
+                <ul>
+                    <li><strong>Строка меню</strong> — доступ к общему функционалу программы.</li>
+                    <li><strong>Панель состояния интерфейсов</strong> (слева внизу) — индикация подключённых устройств и их статуса.</li>
+                    <li><strong>Панель сообщений</strong> (справа внизу) — вывод информационных сообщений и ошибок.</li>
+                    <li><strong>Строка статуса</strong> (по центру внизу) — текущее активное окно или выполняемая задача.</li>
+                </ul>
+
+                <h3 id="sec-interface-switch">3.2 Переключение между окнами</h3>
+                <ul>
+                    <li>через меню «Окно» — выбор нужного окна из списка;</li>
+                    <li>горячими клавишами (комбинации указаны в соответствующих разделах руководства).</li>
+                </ul>
+                <p>Перечень рабочих окон: сканирование — раздел <a href="#sec-scan-modes">4</a>, спектрометр — раздел <a href="#sec-spec-params">6</a>, ОДМР — раздел <a href="#sec-odmr-params">7</a>, G-код — раздел <a href="#sec-gcode-commands">8</a>, нодовый редактор — раздел <a href="#sec-nodes-principle">11</a>.</p>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 4. 2D СКАНИРОВАНИЕ -->
+            <section id="sec-scan-modes" class="doc-section">
+                <h2>4. Двухкоординатное сканирование (2D)</h2>
+                <h3>4.1 Режимы сканирования</h3>
+                <ol>
+                    <li><strong>Комбинированное сканирование.</strong> Перемещение по X и Y — сканером пучка; по Z — позиционером. Высокая скорость в плоскости XY при ограниченном угле.</li>
+                    <li><strong>Сканирование позиционером.</strong> Все три координаты (X,Y,Z) отрабатываются позиционером стола. Позволяет сканировать большие области, исключает аберрации.</li>
+                </ol>
+
+                <h3 id="sec-scan-params">4.2 Параметры сканирования</h3>
+                <table class="doc-table">
+                    <thead><tr><th>Параметр</th><th>Описание</th></tr></thead>
+                    <tbody>
+                        <tr><td>Начальные координаты X₀, Y₀, Z₀</td><td>Точка начала области сканирования</td></tr>
+                        <tr><td>Конечные координаты X₁, Y₁, Z₁</td><td>Точка конца области сканирования</td></tr>
+                        <tr><td>Шаг dX, dY, dZ</td><td>Расстояние между соседними точками по каждой оси</td></tr>
+                        <tr><td>Время накопления</td><td>Время регистрации сигнала в точке</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 id="sec-scan-time">4.3 Оценка времени сканирования</h3>
+                <p>Полное время:</p>
+                <div class="formula">T = N<sub>x</sub> · N<sub>y</sub> · N<sub>z</sub> · (t<sub>accum</sub> + t<sub>losses</sub>)</div>
+                <p>где N<sub>i</sub> = ⌊(X<sub>1i</sub> − X<sub>0i</sub>) / d<sub>i</sub>⌋ + 1 — число точек по оси; t<sub>accum</sub> — время накопления; t<sub>losses</sub> — накладные расходы на одну точку.</p>
+                <p>Накладные расходы включают время передачи команды, приёма ответа, задержки ОС. Для типовой конфигурации (6 байт, 115200 бод): t<sub>tx</sub> ≈ 0,42 мс, t<sub>losses</sub> ≈ 1,8 мс.</p>
+
+                <h3 id="sec-scan-roi">4.4 Повторное сканирование ROI</h3>
+                <p>После завершения сканирования на изображении можно выделить прямоугольную область. Параметры обновляются под выделенную область, что позволяет пересканировать участок без повторного ввода координат.</p>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 5. 3D ВИЗУАЛИЗАЦИЯ -->
+            <section id="sec-3d-modes" class="doc-section">
+                <h2>5. Трёхмерная визуализация (3D)</h2>
+                <p>Требуется OpenGL 3.2 или выше.</p>
+                <h3>5.1 Режимы отображения</h3>
+                <ul>
+                    <li><strong>Воксельный бесцветный.</strong> Сетка вокселей с отображением по порогу интенсивности.</li>
+                    <li><strong>Воксельный цветной.</strong> Цвет вокселя зависит от интенсивности.</li>
+                    <li><strong>Поверхность.</strong> Набор точек с натянутой поверхностью.</li>
+                    <li><strong>Объёмный.</strong> Облако точек с цветом и прозрачностью по интенсивности. Рекомендуется для люминесценции.</li>
+                </ul>
+                
+                <!-- Рисунок 2: view3d.png -->
+                <figure class="doc-figure">
+                    <img src="figures/view3d.png" alt="Окно 3D-визуализации" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>view3d.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 2 — Окно 3D-визуализации</figcaption>
+                </figure>
+
+                <h3 id="sec-3d-slices">5.2 Просмотр срезов</h3>
+                <p>Режим просмотра отдельных слоёв по оси Z. Навигация ползунком или кнопками. Возврат к 3D без потери данных.</p>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 6. СПЕКТРОМЕТРИЯ -->
+            <section id="sec-spec-params" class="doc-section">
+                <h2>6. Спектрометрические измерения</h2>
+                <h3>6.1 Параметры сканирования</h3>
+                <table class="doc-table">
+                    <thead><tr><th>Параметр</th><th>Описание</th></tr></thead>
+                    <tbody>
+                        <tr><td>Начальная длина волны</td><td>Левая граница, нм</td></tr>
+                        <tr><td>Конечная длина волны</td><td>Правая граница, нм</td></tr>
+                        <tr><td>Шаг сканирования</td><td>Шаг перестройки, нм</td></tr>
+                        <tr><td>Время накопления</td><td>Время регистрации сигнала, мс</td></tr>
+                        <tr><td>Число повторений</td><td>Количество проходов диапазона</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 id="sec-spec-modes">6.2 Режимы работы монохроматора</h3>
+                <ul>
+                    <li><strong>Пошаговый.</strong> Остановка на каждой длине волны. Максимальная точность.</li>
+                    <li><strong>Непрерывный.</strong> Без остановки; выше скорость, возможен сдвиг данных.</li>
+                </ul>
+
+                <h3 id="sec-spec-ref">6.3 Опорный спектр</h3>
+                <p>Регистрируется без образца или с эталоном. Все последующие спектры отображаются с вычитанием опорного. Применяется при измерениях поглощения и люминесценции.</p>
+                
+                <!-- Рисунок 3: spectrometer.png -->
+                <figure class="doc-figure">
+                    <img src="figures/spectrometer.png" alt="Окно спектрометра" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>spectrometer.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 3 — Окно спектрометра</figcaption>
+                </figure>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 7. ОДМР -->
+            <section id="sec-odmr-params" class="doc-section">
+                <h2>7. Измерения ОДМР</h2>
+                <p>Параметры аналогичны спектральному сканированию, но диапазон в МГц, шаг соответствует перестройке частоты СВЧ-генератора.</p>
+                <h3 id="sec-odmr-random">7.1 Случайный режим</h3>
+                <p>При длительных измерениях возможен локальный перегрев образца. Частоты перебираются в псевдослучайном порядке, тепловая нагрузка распределяется равномерно. Рекомендуется для чувствительных образцов.</p>
+                
+                <!-- Рисунок 4: odmr.png -->
+                <figure class="doc-figure">
+                    <img src="figures/odmr.png" alt="Окно ОДМР-спектрометра" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>odmr.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 4 — Окно ОДМР-спектрометра</figcaption>
+                </figure>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 8. G-КОД -->
+            <section id="sec-gcode-commands" class="doc-section">
+                <h2>8. Управление по G-коду</h2>
+                <h3>8.1 Поддерживаемые команды</h3>
+                <table class="doc-table">
+                    <thead><tr><th>Код</th><th>Формат</th><th>Описание</th></tr></thead>
+                    <tbody>
+                        <tr><td>G00</td><td>G00 X... Y...</td><td>Быстрое перемещение</td></tr>
+                        <tr><td>G01</td><td>G01 X... Y... F...</td><td>Линейная интерполяция</td></tr>
+                        <tr><td>M03</td><td>M03</td><td>Включение лазера</td></tr>
+                        <tr><td>M05</td><td>M05</td><td>Выключение лазера</td></tr>
+                        <tr><td>F</td><td>F...</td><td>Скорость подачи, LSB/с</td></tr>
+                        <tr><td>S</td><td>S...</td><td>Мощность лазера, %</td></tr>
+                        <tr><td>G04</td><td>G04 P...</td><td>Пауза, с</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 id="sec-gcode-load">8.2 Загрузка программ</h3>
+                <p>Поддерживаются <code>.gcode</code>, <code>.nc</code>, <code>.txt</code>, а также SVG (с автоматической конвертацией).</p>
+
+                <h3 id="sec-gcode-params">8.3 Параметры обработки траектории</h3>
+                <table class="doc-table">
+                    <thead><tr><th>Параметр</th><th>Описание</th></tr></thead>
+                    <tbody>
+                        <tr><td>Смещение X, Y</td><td>Сдвиг траектории, LSB</td></tr>
+                        <tr><td>Масштаб X, Y</td><td>Коэффициенты масштабирования</td></tr>
+                        <tr><td>Поворот</td><td>Угол поворота, градусы</td></tr>
+                        <tr><td>Масштаб F</td><td>Множитель скорости подачи</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 9. ОРГАНИЗАЦИЯ ДАННЫХ -->
+            <section id="sec-data-structure" class="doc-section">
+                <h2>9. Организация данных</h2>
+                <h3>9.1 Структура</h3>
+                <ul>
+                    <li><strong>Ветвь</strong> — соответствует эксперименту. Содержит комментарий, время, описание.</li>
+                    <li><strong>Лист</strong> — единичное измерение (матрица, спектр).</li>
+                </ul>
+                <p>При завершении измерения данные автоматически помещаются в дерево как новый лист. Ветвь определяется автоматически по совпадению параметров эксперимента.</p>
+
+                <h3 id="sec-data-operations">9.2 Операции</h3>
+                <table class="doc-table">
+                    <thead><tr><th>Действие</th><th>Результат</th></tr></thead>
+                    <tbody>
+                        <tr><td>Клик по иконке «глаз»</td><td>Показать/скрыть данные на графике</td></tr>
+                        <tr><td>Клик по иконке «корзина»</td><td>Удалить элемент</td></tr>
+                        <tr><td>Клик по иконке «дискета»</td><td>Открыть диалог сохранения</td></tr>
+                        <tr><td>Двойной клик по имени</td><td>Переименовать</td></tr>
+                        <tr><td>Ctrl + клик</td><td>Выделить несколько элементов</td></tr>
+                    </tbody>
+                </table>
+                <p>Перемещение листов между ветвями — перетаскиванием (только при совпадении параметров эксперимента).</p>
+                
+                <!-- Рисунок 5: tree.png -->
+                <figure class="doc-figure">
+                    <img src="figures/tree.png" alt="Дерево данных" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>tree.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 5 — Дерево данных</figcaption>
+                </figure>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 10. НАСТРОЙКИ -->
+            <section id="sec-settings-interface" class="doc-section">
+                <h2>10. Настройка подключений и оборудования</h2>
+                <h3>10.1 Создание интерфейса связи</h3>
+                <p>Поддерживаются Serial и Ethernet. Меню «Настройки» → «Соединение» → «+ Добавить».</p>
+                <p><strong>Serial:</strong> порт, скорость, длина слова, чётность, стоп-биты, таймаут.</p>
+                <p><strong>Ethernet:</strong> IP-адрес, TCP-порт, таймаут соединения/ответа.</p>
+
+                <h3 id="sec-settings-devices">10.2 Добавление устройства</h3>
+                <p>Пять групп: сканеры пучка, детекторы, позиционеры, монохроматоры, СВЧ-генераторы. Меню «Настройки» → «Устройства» → «+ Добавить».</p>
+                <ul>
+                    <li><strong>Сканеры пучка:</strong> пределы отклонения, коэффициенты пересчёта LSB→мкм, компенсация гистерезиса.</li>
+                    <li><strong>Детекторы:</strong> время накопления, период опроса, уровень компаратора.</li>
+                    <li><strong>Монохроматоры:</strong> скорость, ускорение, токи, число шагов на 1 нм.</li>
+                    <li><strong>Позиционеры:</strong> рабочая область, коэффициенты пересчёта, ускорение.</li>
+                    <li><strong>СВЧ-генератор:</strong> диапазон частот, выходная мощность.</li>
+                </ul>
+
+                <h3 id="sec-settings-commands">10.3 Сборщик команд</h3>
+                <p>Настраивается формат посылок без правки кода.</p>
+                <ul>
+                    <li><strong>Бинарный формат:</strong> стартовое слово, адрес, код команды, поле длины, контрольная сумма (XOR, CRC16/32), данные.</li>
+                    <li><strong>ASCII-формат:</strong> префиксы/суффиксы, разделители, терминатор, кодировка.</li>
+                </ul>
+                
+                <!-- Рисунок 6: command_builder.png -->
+                <figure class="doc-figure">
+                    <img src="figures/command_builder.png" alt="Сборщик команд" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>command_builder.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 6 — Сборщик команд</figcaption>
+                </figure>
+                
+                <!-- Рисунок 7: device_settings.png -->
+                <figure class="doc-figure">
+                    <img src="figures/device_settings.png" alt="Настройки устройств" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>device_settings.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 7 — Настройки устройств</figcaption>
+                </figure>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 11. НОДОВЫЙ РЕДАКТОР -->
+            <section id="sec-nodes-principle" class="doc-section">
+                <h2>11. Обработка данных (нодовый редактор)</h2>
+                <h3>11.1 Принцип работы</h3>
+                <p>Пользователь соединяет функциональные блоки (ноды) в граф; данные передаются по соединениям, преобразуясь на каждом шаге. Входные/выходные ноды оперируют целыми ветвями.</p>
+
+                <h3 id="sec-nodes-categories">11.2 Категории нод</h3>
+                <ul>
+                    <li><strong>DATA_IO:</strong> загрузка/экспорт из файлов и окон.</li>
+                    <li><strong>MATH:</strong> арифметика, нормализация, статистика, PCA.</li>
+                    <li><strong>FILTERS:</strong> сглаживание, шумоподавление, выделение границ, деконволюция.</li>
+                    <li><strong>TRANSFORMS:</strong> геометрические преобразования, ROI, вычитание базовой линии.</li>
+                    <li><strong>AVERAGING:</strong> простое, взвешенное, робастное усреднение.</li>
+                    <li><strong>SEGMENTATION:</strong> пороговая обработка, водораздел, k-means.</li>
+                    <li><strong>VISUALIZATION:</strong> гистограммы, отображение изображений, экспорт.</li>
+                </ul>
+
+                <h3 id="sec-nodes-types">11.3 Типы данных</h3>
+                <table class="doc-table">
+                    <thead><tr><th>Цвет сокета</th><th>Тип</th><th>Пример</th></tr></thead>
+                    <tbody>
+                        <tr><td>Оранжевый</td><td>Универсальный</td><td>Любые данные</td></tr>
+                        <tr><td>Синий</td><td>2D-матрица</td><td>Изображение (скан)</td></tr>
+                        <tr><td>Зелёный</td><td>Спектр</td><td>Массив (X, Y)</td></tr>
+                        <tr><td>Красный</td><td>Число</td><td>Скаляр</td></tr>
+                    </tbody>
+                </table>
+                <p>Сокеты разных цветов не соединяются. Граф выполняется от входных нод к выходным. Тяжёлые операции — в отдельном процессе.</p>
+                
+                <!-- Рисунок 8: node_editor.png -->
+                <figure class="doc-figure">
+                    <img src="figures/node_editor.png" alt="Редактор нод" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>node_editor.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 8 — Редактор нод</figcaption>
+                </figure>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 12. ЭКСПОРТ -->
+            <section id="sec-export-formats" class="doc-section">
+                <h2>12. Экспорт результатов</h2>
+                <p>Диалог сохранения: <kbd>Ctrl+S</kbd>, меню «Файл» → «Сохранить» / «Сохранить как», или кнопка в дереве данных.</p>
+                <h3>12.1 Форматы</h3>
+                <table class="doc-table">
+                    <thead><tr><th>Тип данных</th><th>Форматы</th></tr></thead>
+                    <tbody>
+                        <tr><td>Матрицы (сканы)</td><td>csv, dat, h5, hdf5, npy, npz, tif, tiff, txt</td></tr>
+                        <tr><td>Спектры</td><td>csv, dat, json, npy, npz, txt</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 id="sec-export-params">12.2 Параметры сохранения</h3>
+                <ul>
+                    <li><strong>Группировка в файл</strong> — все листы ветви в один файл.</li>
+                    <li><strong>Добавление даты/времени</strong> — префикс к имени.</li>
+                    <li><strong>Включение заголовка</strong> — заголовки столбцов в файл данных.</li>
+                    <li><strong>Открыть папку после сохранения</strong> — автоматическое открытие директории.</li>
+                </ul>
+                
+                <!-- Рисунок 9: save_dialog.png -->
+                <figure class="doc-figure">
+                    <img src="figures/save_dialog.png" alt="Диалог сохранения" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="missing-img" style="display:none;">
+                        <i class="fas fa-image"></i>
+                        Изображение не найдено<br>
+                        <small>Поместите <code>save_dialog.png</code> в папку <code>figures/</code></small>
+                    </div>
+                    <figcaption>Рис. 9 — Диалог сохранения</figcaption>
+                </figure>
+            </section>
+
+            <!-- ============================================================ -->
+            <!-- 13. КОНФИГУРАЦИЯ -->
+            <section id="sec-config-files" class="doc-section">
+                <h2>13. Конфигурационные файлы</h2>
+                <p>Размещаются в папке <code>service_files/</code>.</p>
+                <table class="doc-table">
+                    <thead><tr><th>Файл</th><th>Назначение</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>devices_settings.json</code></td><td>Параметры устройств, команд и протоколов</td></tr>
+                        <tr><td><code>profiles_settings.json</code></td><td>Профили подключений (COM, Ethernet)</td></tr>
+                        <tr><td><code>app_state.json</code></td><td>Состояние программы на момент закрытия</td></tr>
+                        <tr><td><code>UI_settings.ini</code></td><td>Геометрия и положение окон</td></tr>
+                        <tr><td><code>themes/*.qss</code></td><td>Стили оформления интерфейса</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Внимание:</strong> перед редактированием любого конфигурационного файла создайте резервную копию.</p>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<script>
+    function toggleTree(element) {
+        const submenu = element.nextElementSibling;
+        if (submenu && submenu.classList.contains('tree-submenu')) {
+            submenu.classList.toggle('active');
+        }
+    }
+</script>
+{% endblock %}

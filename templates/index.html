@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}ConfoSoft - Главная{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero секция -->
+    <section class="hero">
+        <div class="hero-content">
+            <img src="/static/img/icon.png" alt="ConfoSoft" class="hero-icon">
+            <h1 class="hero-title">ConfoSoft</h1>
+            <p class="hero-subtitle">Программное обеспечение для управления лазерным сканирующим конфокальным микроскопом</p>
+            <p class="version">Версия 2.3.1</p>
+            <div class="hero-buttons">
+                <a href="/download/ConfoSoft_portable.zip" class="btn btn-primary">Скачать портативную версию</a>
+                <a href="/download/ConfoSoft.exe" class="btn btn-secondary">Скачать установщик</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Технические требования -->
+    <section class="section">
+        <h2 class="section-title">Технические требования</h2>
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <h3>Минимальные требования</h3>
+                <ul>
+                    <li><strong>ОС:</strong> Windows 7 (64-bit)</li>
+                    <li><strong>ОЗУ:</strong> 2 ГБ</li>
+                    <li><strong>Место на диске:</strong> 500 МБ</li>
+                    <li><strong>OpenGL:</strong> 3.2 или выше (для 3D)</li>
+                    <li><strong>Видеоускоритель:</strong> Нет</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Рекомендуемые требования</h3>
+                <ul>
+                    <li><strong>ОС:</strong> Windows 10 (64-bit)</li>
+                    <li><strong>ОЗУ:</strong> 16 ГБ</li>
+                    <li><strong>Место на диске:</strong> 5 ГБ SSD</li>
+                    <li><strong>OpenGL:</strong> 4.5 или выше (для 3D)</li>
+                    <li><strong>Видеоускоритель:</strong> Да</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Основные возможности -->
+    <section class="section">
+        <h2 class="section-title">Основные возможности</h2>
+
+        <!-- 2D Сканирование - картинка слева, текст справа -->
+        <div class="feature-row">
+            <div class="feature-image">
+                <img src="/static/img/feature_2d_scan.png" alt="2D сканирование">
+            </div>
+            <div class="feature-text">
+                <h3>2D Сканирование</h3>
+                <p>Двухкоординатное сканирование образца с поддержкой комбинированного режима (сканер пучка + позиционер) и режима позиционера. Выбор режима определяется конфигурацией оборудования. Позволяет получать карты распределения интенсивности люминесценции с высоким разрешением.</p>
+            </div>
+        </div>
+
+        <!-- 3D Визуализация - текст слева, картинка справа -->
+        <div class="feature-row reverse">
+            <div class="feature-text">
+                <h3>3D Визуализация</h3>
+                <p>Трёхмерная визуализация данных с воксельным и объёмным режимами отображения. Просмотр срезов по оси Z, вращение сцены, настройка цветовых карт и прозрачности. Требуется поддержка OpenGL 3.2 или выше.</p>
+            </div>
+            <div class="feature-image">
+                <img src="/static/img/feature_3d_view.png" alt="3D визуализация">
+            </div>
+        </div>
+
+        <!-- Спектрометрия - картинка слева, текст справа -->
+        <div class="feature-row">
+            <div class="feature-image">
+                <img src="/static/img/feature_spectrometer.png" alt="Спектрометрия">
+            </div>
+            <div class="feature-text">
+                <h3>Спектрометрия</h3>
+                <p>Спектрометрические измерения с поддержкой пошагового и непрерывного режимов работы монохроматора. Автоматическое усреднение спектров, вычитание опорного спектра, настройка времени накопления и числа повторений.</p>
+            </div>
+        </div>
+
+        <!-- ОДМР - текст слева, картинка справа -->
+        <div class="feature-row reverse">
+            <div class="feature-text">
+                <h3>ОДМР измерения</h3>
+                <p>Оптически детектируемый магнитный резонанс с псевдослучайным режимом перебора частот для предотвращения локального перегрева образца. Управление СВЧ-генератором в диапазоне МГц.</p>
+            </div>
+            <div class="feature-image">
+                <img src="/static/img/feature_odmr.png" alt="ОДМР измерения">
+            </div>
+        </div>
+
+        <!-- G-код управление - картинка слева, текст справа -->
+        <div class="feature-row">
+            <div class="feature-image">
+                <img src="/static/img/feature_gcode.png" alt="G-код управление">
+            </div>
+            <div class="feature-text">
+                <h3>G-код управление</h3>
+                <p>Управление по G-коду для автоматических траекторий и лазерной обработки. Поддержка команд G00, G01, M03, M05, G04. Загрузка файлов .gcode, .nc, .txt и SVG с автоматической конвертацией.</p>
+            </div>
+        </div>
+
+        <!-- Нодовый редактор - текст слева, картинка справа -->
+        <div class="feature-row reverse">
+            <div class="feature-text">
+                <h3>Нодовый редактор</h3>
+                <p>Обработка данных без написания кода. Визуальное программирование конвейеров обработки: фильтрация, нормализация, статистический анализ, геометрические преобразования, деконволюция с PSF.</p>
+            </div>
+            <div class="feature-image">
+                <img src="/static/img/feature_nodes.png" alt="Нодовый редактор">
+            </div>
+        </div>
+
+        <!-- Экспорт данных - картинка слева, текст справа -->
+        <div class="feature-row">
+            <div class="feature-image">
+                <img src="/static/img/feature_export.png" alt="Экспорт данных">
+            </div>
+            <div class="feature-text">
+                <h3>Экспорт данных</h3>
+                <p>Сохранение результатов в форматах: CSV, HDF5, NPY, TIFF, JSON и других. Гибкая настройка параметров сохранения, группировка в файл, добавление метаданных.</p>
+            </div>
+        </div>
+
+        <!-- Гибкая настройка - текст слева, картинка справа -->
+        <div class="feature-row reverse">
+            <div class="feature-text">
+                <h3>Гибкая настройка</h3>
+                <p>Поддержка Serial и Ethernet интерфейсов. Настройка протоколов обмена через сборщик команд без правки исходного кода. Бинарный и ASCII форматы.</p>
+            </div>
+            <div class="feature-image">
+                <img src="/static/img/feature_settings.png" alt="Гибкая настройка">
+            </div>
+        </div>
+    </section>
+
+    <!-- Поддерживаемое оборудование -->
+    <section class="section">
+        <h2 class="section-title">Поддерживаемое оборудование</h2>
+
+        <div class="equipment-list">
+            <div class="equipment-item">
+                <div class="equipment-text">
+                    <h3>Двухкоординатные отклоняющие системы (гальвосканеры)</h3>
+                    <p>Устройства для отклонения лазерного пучка по двум осям. Обеспечивают высокую скорость сканирования при ограниченном угле отклонения. Настройка пределов отклонения, коэффициентов пересчёта LSB в микрометры, компенсация гистерезиса и люфта.</p>
+                </div>
+            </div>
+
+            <div class="equipment-item">
+                <div class="equipment-text">
+                    <h3>Трёхкоординатные позиционеры предметного стола</h3>
+                    <p>Пьезоподвижки и столы на шаговых двигателях для перемещения образца по осям X, Y, Z. Обеспечивают высокую точность позиционирования. Настройка рабочей области, коэффициентов пересчёта и ускорения.</p>
+                </div>
+            </div>
+
+            <div class="equipment-item">
+                <div class="equipment-text">
+                    <h3>Детекторы оптического излучения</h3>
+                    <p>Фотодиоды, счётчики фотонов и синхронные детекторы для регистрации оптического сигнала. Настройка времени накопления, периода опроса и уровня компаратора для детекторов, работающих в режиме счёта отдельных событий.</p>
+                </div>
+            </div>
+
+            <div class="equipment-item">
+                <div class="equipment-text">
+                    <h3>Монохроматоры</h3>
+                    <p>Спектральные приборы для выделения узкого диапазона длин волн из широкополосного излучения. Настройка скорости протяжки, ускорения, токов удержания и числа шагов двигателя на 1 нм.</p>
+                </div>
+            </div>
+
+            <div class="equipment-item">
+                <div class="equipment-text">
+                    <h3>Генераторы СВЧ-сигналов</h3>
+                    <p>Источники электромагнитного излучения СВЧ-диапазона для возбуждения магнитного резонанса в образцах. Настройка рабочего диапазона частот и выходной мощности.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
